@@ -5,6 +5,32 @@
 ### Используя Docker, поднимите инстанс PostgreSQL (версию 12) c 2 volume, в который будут складываться данные БД и бэкапы.
 
 Приведите получившуюся команду или docker-compose-манифест.
+```
+version: "3"
+services:
+  postgres:
+    image: postgres:12
+    container_name: postgres
+    environment:             
+      POSTGRES_DB: "test_db "
+      POSTGRES_PASSWORD: "0000"
+      PGDATA: /data/database
+    restart: unless-stopped
+    volumes:
+      - db-data:/data/database
+      - db-backup:/data/backup
+    ports:
+      - "5432:5432"
+    networks:
+      - subnet1
+
+networks:
+  subnet1:
+
+volumes:
+  db-data:
+  db-backup:
+```
 
 ## Задача 2
 
