@@ -36,12 +36,12 @@ volumes:
 
 ### В БД из задачи 1:
 
-создайте пользователя test-admin-user и БД test_db;
-в БД test_db создайте таблицу orders и clients (спeцификация таблиц ниже);
-предоставьте привилегии на все операции пользователю test-admin-user на таблицы БД test_db;
-создайте пользователя test-simple-user;
-предоставьте пользователю test-simple-user права на SELECT/INSERT/UPDATE/DELETE этих таблиц БД test_db.
-Таблица orders:
+* создайте пользователя test-admin-user и БД test_db;
+* в БД test_db создайте таблицу orders и clients (спeцификация таблиц ниже);
+* предоставьте привилегии на все операции пользователю test-admin-user на таблицы БД test_db;
+* создайте пользователя test-simple-user;
+* предоставьте пользователю test-simple-user права на SELECT/INSERT/UPDATE/DELETE этих таблиц БД test_db.
+* Таблица orders:
 
 id (serial primary key);
 наименование (string);
