@@ -93,6 +93,7 @@ Ritchie Blackmore	Russia
 
 - запросы,
 - результаты их выполнения.
+![](https://github.com/Romera14/11-01_BD/blob/main/push%20tables.png)
 
 ## Задача 4
 
