@@ -152,6 +152,12 @@ Ritchie Blackmore	Russia
 Восстановите БД test_db в новом контейнере.
 
 Приведите список операций, который вы применяли для бэкапа данных и восстановления.
+* ```pg_dump -h 0.0.0.0 -U postgres test_db2 > data/backup/test_db2.dump```
+* ```docker-compose down --volumes``` пришлось удалить вместе volumes, потому что как запустить паралельно еще один плейбук я не нашел.
+* ```docker-compose up -d```
+* ```psql -h 0.0.0.0 -U postgres```
+* ```create database test_db2```
+* ```psql -h 0.0.0.0 -U postgres test_db2 < data/backup/test_db2.dump```
 
 Как cдавать задание
 
