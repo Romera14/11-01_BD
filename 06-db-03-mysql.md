@@ -46,6 +46,15 @@ mysql> select * from orders where price > 300;
 * Предоставьте привелегии пользователю test на операции SELECT базы test_db.
 
 Используя таблицу INFORMATION_SCHEMA.USER_ATTRIBUTES, получите данные по пользователю test и приведите в ответе к задаче.
+```
+mysql> SELECT * FROM INFORMATION_SCHEMA.USER_ATTRIBUTES WHERE USER = 'test';
++------+-----------+--------------------------------------+
+| USER | HOST      | ATTRIBUTE                            |
++------+-----------+--------------------------------------+
+| test | localhost | {"name": "James", "lname": "Pretty"} |
++------+-----------+--------------------------------------+
+1 row in set (0.01 sec)
+```
 
 ## Задача 3
 
