@@ -44,6 +44,18 @@ mysql> select * from orders where price > 300;
 * Фамилия "Pretty"
 * Имя "James".
 * Предоставьте привелегии пользователю test на операции SELECT базы test_db.
+```
+mysql> CREATE USER 'test'@'localhost'
+    ->     IDENTIFIED WITH mysql_native_password BY 'test-pass'
+    ->     WITH MAX_QUERIES_PER_HOUR 100
+    ->     FAILED_LOGIN_ATTEMPTS 3 
+    ->     PASSWORD EXPIRE INTERVAL 180 DAY
+    ->     ATTRIBUTE '{"name":"James", "lname":"Pretty"}';
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> GRANT SELECT ON test_db.* TO test@localhost;
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+```
 
 Используя таблицу INFORMATION_SCHEMA.USER_ATTRIBUTES, получите данные по пользователю test и приведите в ответе к задаче.
 ```
