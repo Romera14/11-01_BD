@@ -19,8 +19,41 @@
 * В ответе приведите:
 
 *  текст Dockerfile-манифеста,
+```
+version: "3"
+services:
+
+  elasticsearch:
+    image: elasticsearch:8.6.0
+    container_name: elasticsearch
+    ports:
+      - 9200:9200
+      - 9300:9300
+    volumes:
+      - elast_data:/var/lib/elasticsearch
+      - elast_logs:/var/log/elasticsearch/log
+    environment:
+      - cluster.name=netology_test
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms256m -Xmx256m
+      - xpack.security.enabled=false
+      - xpack.monitoring.collection.enabled=true
+      - xpack.license.self_generated.type=trial
+    networks:
+      - subnet
+    restart: always
+
+volumes:
+  elast_data:
+  elast_logs:
+
+networks:
+  subnet:
+    driver: bridge
+```
 *  ссылку на образ в репозитории dockerhub,
 *  ответ Elasticsearch на запрос пути / в json-виде.
+![](https://github.com/Romera14/11-01_BD/blob/main/Снимок%20экрана%202023-07-12%20в%2005.23.22.png)
 
 Подсказки:
 
