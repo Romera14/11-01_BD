@@ -75,6 +75,9 @@ networks:
     driver: bridge
 ```
 *  ссылку на образ в репозитории dockerhub,
+
+https://hub.docker.com/repository/docker/romera14/elastic-deb11/general
+
 *  ответ Elasticsearch на запрос пути / в json-виде.
 ![](https://github.com/Romera14/11-01_BD/blob/main/Снимок%20экрана%202023-07-12%20в%2005.23.22.png)
 
