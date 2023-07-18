@@ -20,6 +20,29 @@
 
 *  текст Dockerfile-манифеста,
 ```
+FROM debian:bullseye
+
+RUN apt-get update && apt-get -y install wget apt-utils gnupg dirmngr; apt-get clean all && \
+        groupadd --gid 1000 elasticsearch && \
+        useradd -c "elasticsearch" -g elasticsearch elasticsearch && \
+        mkdir /var/lib/elasticsearch/ && \
+        chown -R elasticsearch:elasticsearch /var/lib/elasticsearch/ && \
+        wget -qO - https://mirror.g-soft.info/elasticsearch/GPG-KEY-elasticsearch | gpg --dearmor -o /usr/share/keyrings/elasticsearch-keyring.gpg && \
+        wget https://mirror.g-soft.info/elasticsearch/elasticsearch-8.6.2-amd64.deb && \
+        dpkg -i elasticsearch-8.6.2-amd64.deb
+
+
+USER elasticsearch
+
+WORKDIR /usr/share/elasticsearch
+
+ENV EL_VER=8.6.2
+
+EXPOSE 9200
+
+CMD ["bin/elasticsearch"]
+```
+```
 version: "3"
 services:
 
