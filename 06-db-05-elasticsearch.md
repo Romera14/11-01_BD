@@ -131,6 +131,10 @@ ind-3	2	4
 * Создайте директорию {путь до корневой директории с Elasticsearch в образе}/snapshots.
 
 Используя API, зарегистрируйте эту директорию как snapshot repository c именем netology_backup.
+```
+paromov@debian11:~/docker_elasticsearch$ docker exec -u root -it 83e09c248806 bash 'mkdir $ES_HOME/snapshots'
+bash: mkdir $ES_HOME/snapshots: No such file or directory
+```
 
 Приведите в ответе запрос API и результат вызова API для создания репозитория.
 
