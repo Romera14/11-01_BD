@@ -131,24 +131,87 @@ ind-3	2	4
 * Создайте директорию {путь до корневой директории с Elasticsearch в образе}/snapshots.
 
 Используя API, зарегистрируйте эту директорию как snapshot repository c именем netology_backup.
-```
-paromov@debian11:~/docker_elasticsearch$ docker exec -u root -it 83e09c248806 bash 'mkdir $ES_HOME/snapshots'
-bash: mkdir $ES_HOME/snapshots: No such file or directory
-```
+
+* добавил в docker-compose манифест строке в env: ```- path.repo=/usr/share/elasticsearch/snapshots``` и пересоздал контейнер.
 
 Приведите в ответе запрос API и результат вызова API для создания репозитория.
+```
+curl -X PUT -u elastic:changeme "localhost:9200/_snapshot/netology_backup?pretty" -H 'Content-Type: application/json' -d'
+{
+  "type": "fs",
+  "settings": {
+    "location": "/usr/share/elasticsearch/snapshots",
+    "compress": true
+  }
+}'
+{"acknowledged":true}
+```
 
 Создайте индекс test с 0 реплик и 1 шардом и приведите в ответе список индексов.
+```
+paromov@debian11:~/docker_elasticsearch$ curl -X PUT "http://localhost:9200/_snapshot/netology_backup/%3Cmy_snapshot_%7Bnow%2Fd%7D%3E?pretty"
+{
+  "accepted" : true
+}
+```
 
 Создайте snapshot состояния кластера Elasticsearch.
+```
+curl -X PUT "http://localhost:9200/_snapshot/netology_backup/%3Cmy_snapshot_%7Bnow%2Fd%7D%3E?pretty"
+```
 
 Приведите в ответе список файлов в директории со snapshot.
+```
+paromov@debian11:~/docker_elasticsearch$ docker exec -u root -it c85d47942aa1 ls -lah /usr/share/elasticsearch/snapshots
+total 48K
+drwxrwxr-x 3 elasticsearch root 4.0K Jul 22 03:05 .
+drwxrwxr-x 1 root          root 4.0K Jul 22 02:42 ..
+-rw-rw-r-- 1 elasticsearch root  855 Jul 22 03:05 index-0
+-rw-rw-r-- 1 elasticsearch root    8 Jul 22 03:05 index.latest
+drwxrwxr-x 4 elasticsearch root 4.0K Jul 22 03:05 indices
+-rw-rw-r-- 1 elasticsearch root  19K Jul 22 03:05 meta-Z1u08NjnTGi_3zvu7fgiTg.dat
+-rw-rw-r-- 1 elasticsearch root  360 Jul 22 03:05 snap-Z1u08NjnTGi_3zvu7fgiTg.dat
+```
 
 Удалите индекс test и создайте индекс test-2. Приведите в ответе список индексов.
+```
+paromov@debian11:~/docker_elasticsearch$ curl -X DELETE -u elastic:changeme 'http://localhost:9200/test?pretty'
+{
+  "acknowledged" : true
+}
+paromov@debian11:~/docker_elasticsearch$ curl -X PUT -u elastic:changeme "http://localhost:9200/test2?pretty" -H 'Content-Type: application/json' -d'
+{
+  "settings": {
+    "index": {
+      "number_of_shards": 1,  
+      "number_of_replicas": 0 
+    }
+  }
+}
+'
+{
+  "acknowledged" : true,
+  "shards_acknowledged" : true,
+  "index" : "test2"
+}
+paromov@debian11:~/docker_elasticsearch$ curl -X GET  "http://localhost:9200/_cat/indices?v=true"
+health status index uuid                   pri rep docs.count docs.deleted store.size pri.store.size
+green  open   test2 64mQ38qJTuiHOvV9o4KB2w   1   0          0            0       225b           225b
+```
 
 Восстановите состояние кластера Elasticsearch из snapshot, созданного ранее.
 
 Приведите в ответе запрос к API восстановления и итоговый список индексов.
+```
+paromov@debian11:~/docker_elasticsearch$ curl -X POST http://localhost:9200/_snapshot/netology_backup/my_snapshot_2023.07.22/_restore?pretty
+{
+  "accepted" : true
+}
+paromov@debian11:~/docker_elasticsearch$ curl -X GET  "http://localhost:9200/_cat/indices?v=true"
+health status index uuid                   pri rep docs.count docs.deleted store.size pri.store.size
+green  open   test2 hbkPSAX4Q6Sy8bAXOFrMng   1   0          0            0       225b           225b
+green  open   test  LlxbTp1cQ2mmoemRdvq_FQ   1   0          0            0       225b           225b
+```
 
 Подсказки:
 
