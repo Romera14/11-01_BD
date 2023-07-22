@@ -62,7 +62,6 @@ services:
       - discovery.type=single-node
       - ES_JAVA_OPTS=-Xms256m -Xmx256m
       - xpack.security.enabled=false
-      - xpack.monitoring.collection.enabled=true
       - xpack.license.self_generated.type=trial
     networks:
       - subnet
