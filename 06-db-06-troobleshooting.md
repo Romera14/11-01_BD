@@ -50,9 +50,4 @@ postmaster invoked oom-killer. Как вы думаете, что происхо
 
 Как бы вы решили эту проблему?
 * Решить проблему с памятью. Добавить ее. Или ограничить максимальное ее количество для приложений.
-max_connections
-shared_buffer
-work_mem
-effective_cache_size
-maintenance_work_mem
-max_stack_depth
+* внести изменения в конфигурациионый файл postgresql в : max_connections, shared_buffer, work_mem, effective_cache_size, maintenance_work_mem, max_stack_depth.
